@@ -15,7 +15,7 @@ EMAIL_TO = 'jort@wiebrens.com'
 SMTP_USER = os.environ.get('SMTP_USER')  # Set in GitHub Secrets
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')  # Set in GitHub Secrets
 SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 465
+SMTP_PORT = 587
 
 # Telegram Configuration
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')  # Set in GitHub Secrets
@@ -106,7 +106,7 @@ def main():
             current_status[url] = status
 
             # Check for status change
-            if url in history and history[url] != status:
+            if url in history and history[url] != "Down":
                 message = f"Status Change: {name} ({url}) changed from {history[url]} to {status}"
                 print(message)
                 send_email("URL Status Alert", message)
