@@ -1,4 +1,4 @@
-name: URL Monitor
+name: website-checker
 
 on:
   repository_dispatch:  # Allows triggering via cron-job.org
