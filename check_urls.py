@@ -106,7 +106,7 @@ def main():
             current_status[url] = status
 
             # Check for status change
-            if url in history and history[url] != "Down":
+            if url in history and history[url] != status:
                 message = f"Status Change: {name} ({url}) changed from {history[url]} to {status}"
                 print(message)
                 send_email("URL Status Alert", message)
