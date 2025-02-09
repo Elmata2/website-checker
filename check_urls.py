@@ -15,7 +15,7 @@ EMAIL_TO = 'jort@wiebrens.com'
 SMTP_USER = os.environ.get('SMTP_USER')  # Set in GitHub Secrets
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')  # Set in GitHub Secrets
 SMTP_SERVER = 'smtp.gmail.com'
-SMTP_PORT = 587
+SMTP_PORT = 587  # Using STARTTLS instead of SSL
 
 # Telegram Configuration
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')  # Set in GitHub Secrets
@@ -51,7 +51,8 @@ def send_email(subject, body):
         msg['From'] = SMTP_USER
         msg['To'] = EMAIL_TO
 
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()  # Using STARTTLS instead of SSL
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(SMTP_USER, EMAIL_TO, msg.as_string())
         print("Email sent successfully!")
@@ -92,26 +93,47 @@ def main():
     history = load_history()
     status_list = []
     current_status = {}
+    alerts = []
 
-    with open(URLS_FILE, 'r') as f:
-        reader = csv.reader(f)
-        next(reader)  # Skip header
-        for row in reader:
-            if len(row) != 2:
-                continue
-            name, url = row
-            status = check_url(url)
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            status_list.append((name, url, status, timestamp))
-            current_status[url] = status
+    try:
+        with open(URLS_FILE, 'r') as f:
+            reader = csv.reader(f)
+            try:
+                next(reader)  # Skip header
+            except StopIteration:
+                print("Error: urls.txt is empty or invalid.")
+                return
 
-            # Check for status change
-            if url in history and history[url] != status:
-                message = f"Status Change: {name} ({url}) changed from {history[url]} to {status}"
-                print(message)
-                send_email("URL Status Alert", message)
-                send_telegram(message)
+            for row in reader:
+                if len(row) != 2:
+                    continue
+                name, url = row
+                status = check_url(url)
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                status_list.append((name, url, status, timestamp))
+                current_status[url] = status
 
+                # Track status changes and new URLs
+                if url in history:
+                    if history[url] != status:
+                        message = f"Status Change: {name} ({url}) changed from {history[url]} to {status}"
+                        alerts.append(message)
+                else:
+                    message = f"New URL Added: {name} ({url}) is {status}"
+                    alerts.append(message)
+
+    except FileNotFoundError:
+        print(f"Error: {URLS_FILE} not found.")
+        return
+
+    # Send consolidated alerts
+    if alerts:
+        alert_body = "\n".join(alerts)
+        print("Sending alerts:\n" + alert_body)
+        send_email("URL Status Alert", alert_body)
+        send_telegram(alert_body)
+
+    # Save history and generate HTML
     save_history(current_status)
     generate_html(status_list)
 
