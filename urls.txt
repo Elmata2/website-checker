@@ -1,24 +1,24 @@
-Eager erasmus, http://194.233.175.160:8080/dashboard
-Hunrgy Heisenberg, http://194.233.175.160:8081/dashboard
-Open Isaac, http://194.233.175.160:8082/dashboard
-Cool Casimir, http://194.233.175.160:8083/dashboard  
-Big Bernoulli, http://194.233.175.160:8085/dashboard
-Happy hour, http://194.233.175.160:8086/dashboard
-Rene_ai, http://194.233.175.160:8087/dashboard
-intergalactic, http://194.233.175.160:8088/dashboard
-The Binary, http://194.233.175.160:8089/dashboard
-The humble one, http://194.233.175.160:8091/dashboard
-intergalactic2, http://194.233.175.160:8092/dashboard
-Unagi, http://194.233.175.160:8093/dashboard
-Tora Bora, http://194.233.175.160:8094/dashboard
-Etherium, http://194.233.175.160:8095/dashboard
-Brutus, http://194.233.175.160:8096/dashboard
-Brutus2, http://194.233.175.160:8097/dashboard
-dctradingrsi66, http://172.233.40.181:8080/trade
-dctradingrsi67, http://172.233.40.181:8081/dashboard
-dctradingrsi68, http://172.233.40.181:8082/dashboard
-Big Bernoulli 2, http://172.233.40.181:8083/dashboard
-Ai bot, http://172.233.40.181:8087/dashboard    
+Eager erasmus,http://194.233.175.160:8080/dashboard
+Hunrgy Heisenberg,http://194.233.175.160:8081/dashboard
+Open Isaac,http://194.233.175.160:8082/dashboard
+Cool Casimir,http://194.233.175.160:8083/dashboard  
+Big Bernoulli,http://194.233.175.160:8085/dashboard
+Happy hour,http://194.233.175.160:8086/dashboard
+Rene_ai,http://194.233.175.160:8087/dashboard
+intergalactic,http://194.233.175.160:8088/dashboard
+The Binary,http://194.233.175.160:8089/dashboard
+The humble one,http://194.233.175.160:8091/dashboard
+intergalactic2,http://194.233.175.160:8092/dashboard
+Unagi,http://194.233.175.160:8093/dashboard
+Tora Bora,http://194.233.175.160:8094/dashboard
+Etherium,http://194.233.175.160:8095/dashboard
+Brutus,http://194.233.175.160:8096/dashboard
+Brutus2,http://194.233.175.160:8097/dashboard
+dctradingrsi66,http://172.233.40.181:8080/trade
+dctradingrsi67,http://172.233.40.181:8081/dashboard
+dctradingrsi68,http://172.233.40.181:8082/dashboard
+Big Bernoulli 2,http://172.233.40.181:8083/dashboard
+Ai bot,http://172.233.40.181:8087/dashboard    
 
 
 
