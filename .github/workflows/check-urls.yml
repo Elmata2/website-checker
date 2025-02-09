@@ -1,7 +1,8 @@
-name: website-checker
+name: URL Monitor
 
 on:
-  repository_dispatch:  # Allows triggering via cron-job.org
+  repository_dispatch:  # Trigger via cron-job.org
+  workflow_dispatch:    # Allow manual triggering
 
 jobs:
   check-urls:
@@ -9,7 +10,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Use v4 of checkout action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Ensure GITHUB_TOKEN has write access
+          fetch-depth: 0  # Fetch all history for commits
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,6 +28,15 @@ jobs:
       - name: Run URL monitor script
         run: |
           python check_urls.py
+          
+      - name: Run URL monitor script
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python check_urls.py
 
       - name: Commit and push changes
         run: |
@@ -31,4 +44,5 @@ jobs:
           git config --global user.email "actions@github.com"
           git add status.html history.txt
           git commit -m "Update URL statuses"
-          git push
+          # Use the GITHUB_TOKEN for authentication
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git

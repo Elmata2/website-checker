@@ -1,11 +1,25 @@
 import requests
 import csv
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
+import os
 
 # Configuration
 URLS_FILE = 'urls.txt'
 HTML_FILE = 'status.html'
 HISTORY_FILE = 'history.txt'
+
+# Email Configuration (Gmail example)
+EMAIL_TO = 'jort@wiebrens.com'
+SMTP_USER = os.environ.get('SMTP_USER')  # Set in GitHub Secrets
+SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')  # Set in GitHub Secrets
+SMTP_SERVER = 'smtp.gmail.com'
+SMTP_PORT = 465
+
+# Telegram Configuration
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')  # Set in GitHub Secrets
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')  # Set in GitHub Secrets
 
 def check_url(url):
     try:
@@ -29,6 +43,33 @@ def save_history(history):
     with open(HISTORY_FILE, 'w') as f:
         for url, status in history.items():
             f.write(f"{url},{status}\n")
+
+def send_email(subject, body):
+    try:
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = SMTP_USER
+        msg['To'] = EMAIL_TO
+
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.sendmail(SMTP_USER, EMAIL_TO, msg.as_string())
+        print("Email sent successfully!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
+def send_telegram(message):
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        payload = {
+            'chat_id': TELEGRAM_CHAT_ID,
+            'text': message
+        }
+        response = requests.post(url, data=payload)
+        if response.status_code != 200:
+            print(f"Telegram API error: {response.text}")
+    except Exception as e:
+        print(f"Failed to send Telegram message: {e}")
 
 def generate_html(status_list):
     html = """
@@ -56,6 +97,8 @@ def main():
         reader = csv.reader(f)
         next(reader)  # Skip header
         for row in reader:
+            if len(row) != 2:
+                continue
             name, url = row
             status = check_url(url)
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -64,7 +107,10 @@ def main():
 
             # Check for status change
             if url in history and history[url] != status:
-                print(f"Status Change: {name} ({url}) changed from {history[url]} to {status}")
+                message = f"Status Change: {name} ({url}) changed from {history[url]} to {status}"
+                print(message)
+                send_email("URL Status Alert", message)
+                send_telegram(message)
 
     save_history(current_status)
     generate_html(status_list)
