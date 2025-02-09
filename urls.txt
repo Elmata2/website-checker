@@ -1,7 +1,8 @@
+Custom Name,URL
 Eager erasmus,http://194.233.175.160:8080/dashboard
 Hunrgy Heisenberg,http://194.233.175.160:8081/dashboard
 Open Isaac,http://194.233.175.160:8082/dashboard
-Cool Casimir,http://194.233.175.160:8083/dashboard  
+Cool Casimir,http://194.233.175.160:8083/dashboard
 Big Bernoulli,http://194.233.175.160:8085/dashboard
 Happy hour,http://194.233.175.160:8086/dashboard
 Rene_ai,http://194.233.175.160:8087/dashboard
@@ -18,9 +19,4 @@ dctradingrsi66,http://172.233.40.181:8080/trade
 dctradingrsi67,http://172.233.40.181:8081/dashboard
 dctradingrsi68,http://172.233.40.181:8082/dashboard
 Big Bernoulli 2,http://172.233.40.181:8083/dashboard
-Ai bot,http://172.233.40.181:8087/dashboard    
-
-
-
-
-
+Ai bot,http://172.233.40.181:8087/dashboard
