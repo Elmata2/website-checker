@@ -13,7 +13,7 @@ http://194.233.175.160:8093/dashboard,Down
 http://194.233.175.160:8094/dashboard,Down
 http://194.233.175.160:8095/dashboard,Live
 http://194.233.175.160:8096/dashboard,Live
-http://194.233.175.160:8097/dashboard,Down
+http://194.233.175.160:8097/dashboard,Live
 http://172.233.40.181:8080/trade,Live
 http://172.233.40.181:8081/dashboard,Down
 http://172.233.40.181:8082/dashboard,Down
